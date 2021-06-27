@@ -1,6 +1,7 @@
 import React, {useState, useEffect } from 'react'
 import { FlatList, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Square from './Square'
+import { SquareStatus, SquareData } from '../types/type'
 
 const squareIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -15,17 +16,6 @@ const possibleWins = [
   [2, 4, 6],
 ];
 
-export enum SquareStatus {
-  Empty,
-  Player_One,
-  Player_Two
-}
-
-export interface SquareData {
-  id: string
-  status: SquareStatus
-}
-
 const Board = () => {
   const [board, setBoard] = useState<SquareData[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<SquareStatus>(SquareStatus.Player_One)
@@ -38,6 +28,9 @@ const Board = () => {
         return { id: id.toString(), status: SquareStatus.Empty }
       })
       setBoard(newBoard)
+    }
+    if (!isPlaying) {
+      setBoard([])
     }
   }, [isPlaying])
 
@@ -79,10 +72,24 @@ const Board = () => {
     setBoard(updatedBoard)
   }
 
+  useEffect(() => {
+    if (winner) {
+      setIsPlaying(false)
+    }
+  }, [winner])
+
+  const handleStartAgain = () => {
+    setWinner(null)
+    setIsPlaying(true)
+  }
+
   if (winner) {
     return (
       <View>
         <Text style={styles.gameText}>{winner === SquareStatus.Player_One ? "Player One Wins!" : "Player Two Wins!"}</Text>
+        <TouchableOpacity onPress={() => handleStartAgain()}>
+          <Text style={styles.gameText}>START AGAIN</Text>
+        </TouchableOpacity>
       </View>
     )
   }

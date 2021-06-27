@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {SquareData, SquareStatus } from './Board'
+import { SquareStatus, SquareData } from '../types/type'
 
 interface SquareProps {
   square: SquareData,

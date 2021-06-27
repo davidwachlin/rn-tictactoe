@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import {SquareData } from './Board'
+import {SquareData, SquareStatus } from './Board'
 
 interface SquareProps {
   square: SquareData,
@@ -11,7 +11,15 @@ const Square = (props: SquareProps) => {
   const {square, handleSelection} = props;
   return (
     <TouchableOpacity style={styles.square} onPress={() => handleSelection(square.id)}>
-      <Text style={styles.squareText}>{square.id}</Text>
+      {square.status === SquareStatus.Empty && (
+        <Text style={styles.squareText}>{square.id}</Text>
+      )}
+      {square.status === SquareStatus.Player_One && (
+        <Text style={styles.squareText}>X</Text>
+      )}
+      {square.status === SquareStatus.Player_Two && (
+        <Text style={styles.squareText}>0</Text>
+      )}
     </TouchableOpacity>
   )
 }

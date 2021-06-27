@@ -1,5 +1,5 @@
 import React, {useState, useEffect } from 'react'
-import { FlatList, View, Text, TouchableOpacity } from 'react-native'
+import { FlatList, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Square from './Square'
 
 const squareIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -82,7 +82,7 @@ const Board = () => {
   if (winner) {
     return (
       <View>
-        <Text>{winner === SquareStatus.Player_One ? "Player One Wins!" : "Player Two Wins!"}</Text>
+        <Text style={styles.gameText}>{winner === SquareStatus.Player_One ? "Player One Wins!" : "Player Two Wins!"}</Text>
       </View>
     )
   }
@@ -91,7 +91,7 @@ const Board = () => {
     return (
       <View>
         <TouchableOpacity onPress={() => setIsPlaying(true)}>
-          <Text>START</Text>
+          <Text style={styles.gameText}>START</Text>
         </TouchableOpacity>
       </View>
     )
@@ -111,3 +111,11 @@ const Board = () => {
 }
 
 export default Board
+
+const styles = StyleSheet.create({
+  gameText: {
+    fontSize: 20,
+    textAlignVertical: 'center',
+    lineHeight: 300
+  },
+})

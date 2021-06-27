@@ -12,7 +12,7 @@ const Square = (props: SquareProps) => {
   return (
     <TouchableOpacity style={styles.square} onPress={() => handleSelection(square.id)}>
       {square.status === SquareStatus.Empty && (
-        <Text style={styles.squareText}>{square.id}</Text>
+        <Text style={styles.squareText}></Text>
       )}
       {square.status === SquareStatus.Player_One && (
         <Text style={styles.squareText}>X</Text>

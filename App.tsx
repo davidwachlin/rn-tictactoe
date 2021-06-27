@@ -5,7 +5,7 @@ import Board from './components/Board'
 export default function App() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Tic  Tac Toe</Text>
+      <Text style={styles.heading}>TicTacToe</Text>
       <Board />
     </SafeAreaView>
   );
@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
+  heading: {
+    fontSize: 40
+  }
 });

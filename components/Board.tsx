@@ -4,6 +4,17 @@ import Square from './Square'
 
 const squareIds = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
+const possibleWins = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 export enum SquareStatus {
   Empty,
   Player_One,
@@ -19,6 +30,7 @@ const Board = () => {
   const [board, setBoard] = useState<SquareData[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<SquareStatus>(SquareStatus.Player_One)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [winner, setWinner] = useState<SquareStatus | null>(null)
 
   useEffect(() => {
     if (!board.length && isPlaying) {
@@ -30,10 +42,32 @@ const Board = () => {
   }, [isPlaying])
 
   useEffect(() => {
-    const nextPlayer = currentPlayer === SquareStatus.Player_One ? SquareStatus.Player_Two : SquareStatus.Player_One
-    setCurrentPlayer(nextPlayer)
-  }, [board])
+    if (board.length && checkForWin()) {
+      setWinner(currentPlayer);
+    } else {
+      const nextPlayer =
+        currentPlayer === SquareStatus.Player_One
+          ? SquareStatus.Player_Two
+          : SquareStatus.Player_One;
+      setCurrentPlayer(nextPlayer);
+    }
+  }, [board]);
 
+  const checkForWin = (): boolean => {
+    let isWinner = false;
+    if (board.length) {
+      possibleWins.forEach((win) => {
+        if (
+          board[win[0]].status === currentPlayer &&
+          board[win[1]].status === currentPlayer &&
+          board[win[2]].status === currentPlayer
+        ) {
+          isWinner = true;
+        }
+      });
+    }
+    return isWinner;
+  };
 
   const handleSelection = (id: string) => {
     const updatedBoard = [...board];
@@ -43,6 +77,14 @@ const Board = () => {
       }
     }
     setBoard(updatedBoard)
+  }
+
+  if (winner) {
+    return (
+      <View>
+        <Text>{winner === SquareStatus.Player_One ? "Player One Wins!" : "Player Two Wins!"}</Text>
+      </View>
+    )
   }
 
   if (!board.length && !isPlaying) {
